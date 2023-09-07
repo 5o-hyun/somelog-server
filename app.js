@@ -14,17 +14,8 @@ app.get("/", (req, res) => {
   res.send("hello express");
 });
 
-app.get("/posts", (req, res) => {
-  res.json([
-    { id: 1, content: "hello1" },
-    { id: 2, content: "hello2" },
-    { id: 3, content: "hello3" },
-  ]);
-});
-
-app.post("/post", (req, res) => {
-  res.json({ id: 1, content: "작성완료" });
-});
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use("/schedule", scheduleRouter);
 
