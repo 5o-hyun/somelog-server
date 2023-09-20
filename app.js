@@ -1,6 +1,7 @@
 const express = require("express");
 const scheduleRouter = require("./routes/schedule");
 const schedulesRouter = require("./routes/schedules");
+const categoryRouter = require("./routes/category");
 const db = require("./models");
 const cors = require("cors");
 const app = express();
@@ -23,6 +24,7 @@ app.get("/", (req, res) => {
 
 app.use("/schedule", scheduleRouter);
 app.use("/schedules", schedulesRouter);
+app.use("/category", categoryRouter);
 
 app.listen(3065, () => {
   console.log("서버 실행중!!");
