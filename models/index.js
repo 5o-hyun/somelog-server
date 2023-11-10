@@ -14,6 +14,7 @@ const sequelize = new Sequelize(
 // db 빈배열에 만든 테이블 import
 db.Schedule = require("./schedule")(sequelize, Sequelize);
 db.Category = require("./category")(sequelize, Sequelize);
+db.Memo = require("./memo")(sequelize, Sequelize);
 
 // db에 associate한것들 반복문돌리며 import
 Object.keys(db).forEach((modelName) => {
