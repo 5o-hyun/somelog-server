@@ -2,6 +2,7 @@ const express = require("express");
 const scheduleRouter = require("./routes/schedule");
 const schedulesRouter = require("./routes/schedules");
 const categoryRouter = require("./routes/category");
+const memoRouter = require("./routes/memo");
 const memosRouter = require("./routes/memos");
 const db = require("./models");
 const cors = require("cors");
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 app.use("/schedule", scheduleRouter);
 app.use("/schedules", schedulesRouter);
 app.use("/category", categoryRouter);
+app.use("/memo", memoRouter);
 app.use("/memos", memosRouter);
 
 app.listen(3065, () => {
