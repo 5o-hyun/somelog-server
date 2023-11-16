@@ -23,4 +23,17 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.delete("/:memoId", async (req, res) => {
+  try {
+    await Memo.destroy({
+      where: {
+        id: req.params.memoId,
+      },
+    });
+    res.status(200).send("메모가 삭제되었습니다.");
+  } catch (err) {
+    res.status(500).send("메모를 삭제할수없습니다.");
+  }
+});
+
 module.exports = router;
