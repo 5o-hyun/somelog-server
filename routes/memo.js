@@ -23,6 +23,30 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.put("/:memoId", async (req, res) => {
+  try {
+    const memo = await Memo.findOne({
+      where: { id: req.params.memoId },
+    });
+    if (!memo) {
+      res.status(403).send("존재하지 않는 메모입니다.");
+    }
+    await Memo.update(
+      {
+        id: req.body.id,
+        title: req.body.title,
+        detail: req.body.detail,
+      },
+      {
+        where: { id: req.params.memoId },
+      }
+    );
+    res.status(200).send("메모를 수정하였습니다.");
+  } catch (err) {
+    res.status(500).send("메모를 수정할수없습니다.");
+  }
+});
+
 router.delete("/:memoId", async (req, res) => {
   try {
     await Memo.destroy({
