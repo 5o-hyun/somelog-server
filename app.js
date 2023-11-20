@@ -7,11 +7,20 @@ const memosRouter = require("./routes/memos");
 const db = require("./models");
 const cors = require("cors");
 const app = express();
+const mongoose = require("mongoose");
+require("dotenv").config();
+
+mongoose
+  .connect(process.env.DB, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("몽고db연결"));
 
 db.sequelize
   .sync()
   .then(() => {
-    console.log("db연결성공");
+    console.log("MySQL db연결");
   })
   .catch(console.error);
 

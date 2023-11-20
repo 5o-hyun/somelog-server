@@ -47,4 +47,18 @@ router.put("/:categoryId", async (req, res) => {
   }
 });
 
+router.delete("/:categoryId", async (req, res) => {
+  try {
+    await Category.destroy({
+      where: {
+        id: req.params.categoryId,
+      },
+    });
+    res.status(200).send("카테고리가 삭제되었습니다.");
+  } catch (err) {
+    console.error(error);
+    res.status(500).send("카테고리를 삭제할수없습니다.");
+  }
+});
+
 module.exports = router;
