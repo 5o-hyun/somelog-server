@@ -4,6 +4,7 @@ const schedulesRouter = require("./routes/schedules");
 const categoryRouter = require("./routes/category");
 const memoRouter = require("./routes/memo");
 const memosRouter = require("./routes/memos");
+const userRouter = require("./routes/user");
 const db = require("./models");
 const cors = require("cors");
 const app = express();
@@ -38,6 +39,7 @@ app.use("/schedules", schedulesRouter);
 app.use("/category", categoryRouter);
 app.use("/memo", memoRouter);
 app.use("/memos", memosRouter);
+app.use("/user", userRouter);
 
 app.listen(3065, () => {
   console.log("서버 실행중!!");
