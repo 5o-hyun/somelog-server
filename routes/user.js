@@ -56,7 +56,7 @@ router.post("/login", (req, res, next) => {
       // 이미 user가 있는데 또 찾는 이유는, 비밀번호제외하고받으려고
       const fullUserWithoutPassword = await User.findOne({
         where: { id: user.id },
-        attributes: { excludes: ["pw"] }, // 비밀번호 제외하고 받겠다.
+        attributes: { exclude: ["pw"] }, // 비밀번호 제외하고 받겠다.
       });
       return res.status(200).json(fullUserWithoutPassword); // 프론트로 보낼때 쿠키랑 user정보를 보내줌
     });
@@ -74,7 +74,7 @@ router.get("/", async (req, res, next) => {
       // });
       const fullUserWithoutPassword = await User.findOne({
         where: { id: req.user.id },
-        attributes: { excludes: ["pw"] },
+        attributes: { exclude: ["pw"] },
       });
       res.status(200).json(fullUserWithoutPassword);
     }
