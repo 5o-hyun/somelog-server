@@ -84,4 +84,29 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+router.put("/:userId/addInfo", async (req, res) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+    });
+    if (!user) {
+      return res.status(403).send("존재하지 않는 유저입니다.");
+    }
+
+    await User.update(
+      {
+        sex: req.body.sex,
+        birthday: req.body.birthday,
+      },
+      {
+        where: { id: req.params.userId },
+      }
+    );
+    res.status(200).send("ok");
+  } catch (err) {
+    res.status(500).send("서버에 추가정보를 저장할수없습니다.");
+    console.log(err);
+  }
+});
+
 module.exports = router;
