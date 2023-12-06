@@ -2,6 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const router = express.Router();
 const { User } = require("../models");
+const bcrypt = require("bcrypt");
 
 // 회원가입
 router.post("/", async (req, res) => {
@@ -15,10 +16,11 @@ router.post("/", async (req, res) => {
       return res.status(403).send("이미 사용중인 이메일입니다");
     }
 
+    const hashedPassword = await bcrypt.hash(req.body.pw, 12); // 암호화된 비밀번호 'npm i bcrypt', 뒤의 12은 10-13사이의 숫자를 넣으며 높을수록 암호화가 쎄짐. 보통 10 or 12
     await User.create({
       nickname: req.body.nickname,
       email: req.body.email,
-      pw: req.body.pw,
+      pw: hashedPassword,
     });
     res.status(201).send("ok");
   } catch (err) {

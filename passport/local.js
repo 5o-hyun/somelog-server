@@ -23,11 +23,11 @@ module.exports = () => {
             return done(null, false, { reason: "존재하지 않는 이메일입니다." }); // done으로 결과판단. (서버에러, 성공여부, 클라이언트에러)
           }
 
-          // 비밀번호 비교체크 (pw:사용자가입력한비번, password:DB에있는비번)
+          // 비밀번호 비교체크 (user.pw:사용자가입력한비번, pw:DB에있는비번)
           // 입력한비번과 db에있는비번이 일치하는지. => 일치하면 사용자정보넘기고 일치안하면 에러
-          //   const result = await bcrypt.compare(pw, user.pw);
+          const result = await bcrypt.compare(pw, user.pw);
           // 1) 비밀번호 일치할경우
-          if (pw === user.pw) {
+          if (result) {
             return done(null, user);
           }
           // 2) 비밀번호 일치하지않을경우
