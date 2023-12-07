@@ -13,6 +13,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    code: {
+      type: DataTypes.STRING,
+      allowNull: true, // true : 선택적 ,false : 필수
+    },
     sex: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -20,11 +24,6 @@ module.exports = (sequelize, DataTypes) => {
     birthday: {
       type: DataTypes.STRING,
       allowNull: true,
-    },
-    token: {
-      type: DataTypes.STRING,
-      allowNull: true, // true : 선택적 ,false : 필수
-      unique: true, // 고유한값
     },
   });
   User.associate = (db) => {};

@@ -21,6 +21,7 @@ router.post("/", async (req, res) => {
       nickname: req.body.nickname,
       email: req.body.email,
       pw: hashedPassword,
+      code: req.body.code,
     });
     res.status(201).send("ok");
   } catch (err) {
@@ -40,6 +41,7 @@ router.post("/", async (req, res) => {
 // 로그인
 router.post("/login", (req, res, next) => {
   // 미들웨어 확장법 (req, res, next를 사용하기 위해서)
+
   passport.authenticate("local", (err, user, info) => {
     // 서버에러있으면
     if (err) {
@@ -50,6 +52,7 @@ router.post("/login", (req, res, next) => {
     if (info) {
       return res.status(401).send(info.reason);
     }
+
     return req.login(user, async (loginErr) => {
       if (loginErr) {
         console.error(loginErr);
@@ -80,6 +83,7 @@ router.get("/", async (req, res, next) => {
       });
       res.status(200).json(fullUserWithoutPassword);
     }
+    res.status(401).json();
   } catch (err) {
     console.error(err);
     next(error);
