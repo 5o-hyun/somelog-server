@@ -5,29 +5,49 @@ const { User } = require("../models");
 const bcrypt = require("bcrypt");
 
 // 회원가입
-router.post("/", async (req, res) => {
-  try {
-    const exUser = await User.findOne({
-      where: {
-        email: req.body.email,
-      },
-    });
-    if (exUser) {
-      return res.status(403).send("이미 사용중인 이메일입니다");
+router.post("/", async (req, res, next) => {
+  // 유저 있는지
+  const exUser = await User.findOne({
+    where: {
+      email: req.body.email,
+    },
+  });
+  if (exUser) {
+    return res.status(403).send("이미 사용중인 이메일입니다");
+  }
+
+  const hashedPassword = await bcrypt.hash(req.body.pw, 12); // 암호화된 비밀번호 'npm i bcrypt', 뒤의 12은 10-13사이의 숫자를 넣으며 높을수록 암호화가 쎄짐. 보통 10 or 12
+  await User.create({
+    nickname: req.body.nickname,
+    email: req.body.email,
+    pw: hashedPassword,
+    code: req.body.code,
+  });
+
+  // 회원가입후 바로 로그인처럼 쿠키를 생성해서, 쿠키랑 user정보를 보내줌
+  passport.authenticate("local", async (err, user, info) => {
+    // 서버에러있으면
+    if (err) {
+      console.error(err);
+      return next(err);
+    }
+    // 클라이언트에러있으면
+    if (info) {
+      return res.status(401).send(info.reason);
     }
 
-    const hashedPassword = await bcrypt.hash(req.body.pw, 12); // 암호화된 비밀번호 'npm i bcrypt', 뒤의 12은 10-13사이의 숫자를 넣으며 높을수록 암호화가 쎄짐. 보통 10 or 12
-    await User.create({
-      nickname: req.body.nickname,
-      email: req.body.email,
-      pw: hashedPassword,
-      code: req.body.code,
+    return req.login(user, async (loginErr) => {
+      if (loginErr) {
+        console.error(loginErr);
+        return next(loginErr);
+      }
+      const fullUserWithoutPassword = await User.findOne({
+        where: { id: user.id },
+        attributes: { exclude: ["pw"] },
+      });
+      return res.status(200).json(fullUserWithoutPassword);
     });
-    res.status(201).send("ok");
-  } catch (err) {
-    res.status(500).send("회원등록을 할수없습니다.");
-    console.log(err);
-  }
+  })(req, res, next);
 });
 
 /*  로그인전체흐름 
