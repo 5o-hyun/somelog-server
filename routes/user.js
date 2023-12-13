@@ -90,8 +90,6 @@ router.post("/login", (req, res, next) => {
 
 // 로그인유지
 router.get("/", async (req, res, next) => {
-  console.log(req.headers);
-  console.log(req.user);
   try {
     if (req.user) {
       // const user = await User.findOne({
@@ -110,6 +108,7 @@ router.get("/", async (req, res, next) => {
   }
 });
 
+// 추가정보
 router.put("/:userId/addInfo", async (req, res) => {
   try {
     const user = await User.findOne({
@@ -132,6 +131,32 @@ router.put("/:userId/addInfo", async (req, res) => {
   } catch (err) {
     res.status(500).send("서버에 추가정보를 저장할수없습니다.");
     console.log(err);
+  }
+});
+
+// 연인 연결하기
+router.post("/:userId/code", async (req, res, next) => {
+  try {
+    // 나 찾기
+    const connected = await User.findOne({
+      where: { id: req.params.userId },
+    });
+    if (!connected) {
+      return res.status(403).send("당신은 존재하지 않는 유저입니다.");
+    }
+    // 코드로 상대방 찾기
+    const connecter = await User.findOne({
+      where: { code: req.body.code },
+    });
+    if (!connecter) {
+      return res.status(403).send("존재하지 않는 유저랑 연결할수없습니다.");
+    }
+
+    await connecter.addConnecter(connected.id);
+    res.json({ ConnectedId: connected.id, ConnecterId: connecter.id });
+  } catch (err) {
+    console.error(err);
+    next(err);
   }
 });
 

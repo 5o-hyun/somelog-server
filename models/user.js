@@ -26,6 +26,20 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
     },
   });
-  User.associate = (db) => {};
+  User.associate = (db) => {
+    // 코드를 받은사람
+    db.User.belongsToMany(db.User, {
+      through: "Connect",
+      as: "Connected",
+      foreignKey: "ConnectedId",
+    });
+    // 코드를 보낸사람
+    db.User.belongsToMany(db.User, {
+      through: "Connect",
+      as: "Connecter",
+      foreignKey: "ConnecterId",
+    });
+  };
+
   return User;
 };
