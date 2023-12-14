@@ -92,14 +92,46 @@ router.post("/login", (req, res, next) => {
 router.get("/", async (req, res, next) => {
   try {
     if (req.user) {
-      // const user = await User.findOne({
-      //   where: { id: req.user.id },
-      // });
-      const fullUserWithoutPassword = await User.findOne({
+      const fullUser = await User.findOne({
         where: { id: req.user.id },
-        attributes: { exclude: ["pw"] },
+        include: [
+          {
+            model: User,
+            as: "Connecter",
+            attributes: { exclude: ["code", "email", "pw", "createdAt"] },
+          },
+          {
+            model: User,
+            as: "Connected",
+            attributes: { exclude: ["code", "email", "pw", "createdAt"] },
+          },
+        ],
       });
-      res.status(200).json(fullUserWithoutPassword);
+
+      const partner =
+        fullUser.Connected.length > 0
+          ? fullUser.Connected[0]
+          : fullUser.Connecter[0];
+
+      const result = {
+        id: fullUser.id,
+        nickname: fullUser.nickname,
+        email: fullUser.email,
+        sex: fullUser.sex,
+        birthday: fullUser.birthday,
+        code: fullUser.code,
+
+        partner: partner
+          ? {
+              id: partner.dataValues.id,
+              nickname: partner.dataValues.nickname,
+              sex: partner.dataValues.sex,
+              birthday: partner.dataValues.birthday,
+            }
+          : undefined,
+      };
+
+      res.status(200).json(result);
     }
     res.status(401).json();
   } catch (err) {
