@@ -17,15 +17,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    category: {
+    color: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    // creatorId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   unique: true,
-    // },
   });
   Schedule.associate = (db) => {};
   return Schedule;

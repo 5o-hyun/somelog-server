@@ -1,7 +1,7 @@
 const express = require("express");
 const scheduleRouter = require("./routes/schedule");
 const schedulesRouter = require("./routes/schedules");
-const categoryRouter = require("./routes/category");
+const colorRouter = require("./routes/color");
 const memoRouter = require("./routes/memo");
 const memosRouter = require("./routes/memos");
 const userRouter = require("./routes/user");
@@ -56,7 +56,7 @@ app.get("/", (req, res) => {
 
 app.use("/schedule", scheduleRouter);
 app.use("/schedules", schedulesRouter);
-app.use("/category", categoryRouter);
+app.use("/color", colorRouter);
 app.use("/memo", memoRouter);
 app.use("/memos", memosRouter);
 app.use("/user", userRouter);

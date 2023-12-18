@@ -20,7 +20,7 @@ router.post("/", async (req, res) => {
       memo: req.body.memo,
       startDate: req.body.startDate,
       endDate: req.body.endDate,
-      category: req.body.category,
+      color: req.body.color,
     });
     res.status(201).send("ok");
   } catch (err) {
@@ -42,7 +42,7 @@ router.put("/:scheduleId", async (req, res) => {
         memo: req.body.memo,
         startDate: req.body.startDate,
         endDate: req.body.endDate,
-        category: req.body.category,
+        color: req.body.color,
       },
       {
         where: { id: req.params.scheduleId },

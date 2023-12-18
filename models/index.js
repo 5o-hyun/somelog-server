@@ -13,7 +13,7 @@ const sequelize = new Sequelize(
 
 // db 빈배열에 만든 테이블 import
 db.Schedule = require("./schedule")(sequelize, Sequelize);
-db.Category = require("./category")(sequelize, Sequelize);
+db.Color = require("./color")(sequelize, Sequelize);
 db.Memo = require("./memo")(sequelize, Sequelize);
 db.User = require("./user")(sequelize, Sequelize);
 db.Connect = require("./connect")(sequelize, Sequelize);

@@ -1,7 +1,7 @@
 module.exports = (sequelize, DataTypes) => {
-  const Category = sequelize.define("Category", {
+  const Color = sequelize.define("Color", {
     // id:{}, mysql에 기본적으로 들어있다.
-    category: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
@@ -10,6 +10,6 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
-  Category.associate = (db) => {};
-  return Category;
+  Color.associate = (db) => {};
+  return Color;
 };
