@@ -22,6 +22,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
-  Schedule.associate = (db) => {};
+  Schedule.associate = (db) => {
+    db.Schedule.belongsTo(db.User); // schedule은 어떤 user에게 속해있다. 1:N
+  };
   return Schedule;
 };

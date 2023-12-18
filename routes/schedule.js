@@ -21,6 +21,7 @@ router.post("/", async (req, res) => {
       startDate: req.body.startDate,
       endDate: req.body.endDate,
       color: req.body.color,
+      UserId: req.body.UserId,
     });
     res.status(201).send("ok");
   } catch (err) {
@@ -43,6 +44,7 @@ router.put("/:scheduleId", async (req, res) => {
         startDate: req.body.startDate,
         endDate: req.body.endDate,
         color: req.body.color,
+        UserId: req.body.UserId,
       },
       {
         where: { id: req.params.scheduleId },

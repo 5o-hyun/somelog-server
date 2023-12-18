@@ -10,6 +10,8 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
   });
-  Memo.associate = (db) => {};
+  Memo.associate = (db) => {
+    db.Memo.belongsTo(db.User); // memo는 어떤 user에게 속해있다. 1:N
+  };
   return Memo;
 };
