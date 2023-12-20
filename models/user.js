@@ -25,6 +25,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    photo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
   User.associate = (db) => {
     // 코드를 받은사람

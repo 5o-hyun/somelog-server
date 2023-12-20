@@ -192,4 +192,31 @@ router.post("/:userId/code", async (req, res, next) => {
   }
 });
 
+// 회원수정
+router.put("/:userId", async (req, res, next) => {
+  try {
+    const user = await User.findOne({
+      where: { id: req.params.userId },
+    });
+    if (!user) {
+      return res.status(403).send("존재하지 않는 유저입니다.");
+    }
+    const result = await User.update(
+      {
+        photo: req.body.photo,
+        nickname: req.body.nickname,
+        birthday: req.body.birthday,
+        sex: req.body.sex,
+      },
+      {
+        where: { id: req.params.userId },
+      }
+    );
+    return res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    next(err);
+  }
+});
+
 module.exports = router;
