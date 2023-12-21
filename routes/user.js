@@ -120,6 +120,7 @@ router.get("/", async (req, res, next) => {
         sex: fullUser.sex,
         birthday: fullUser.birthday,
         code: fullUser.code,
+        photo: fullUser.photo,
 
         partner: partner
           ? {
@@ -127,6 +128,7 @@ router.get("/", async (req, res, next) => {
               nickname: partner.dataValues.nickname,
               sex: partner.dataValues.sex,
               birthday: partner.dataValues.birthday,
+              photo: partner.dataValues.photo,
             }
           : undefined,
       };
