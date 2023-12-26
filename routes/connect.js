@@ -49,7 +49,35 @@ router.get("/:userId", async (req, res) => {
     // 있으면 그 row전체를 반환해서 리턴
     return res.status(200).json(connect);
   } catch (err) {
-    res.status(500).send("메모를 조회할수없습니다.");
+    res.status(500).send("연인관계를 조회할수없습니다.");
+  }
+});
+
+router.put("/:connectId", async (req, res) => {
+  try {
+    const connect = await Connect.findOne({
+      where: { id: req.params.connectId },
+    });
+    if (!connect) {
+      return res.status(403).send("연결이 된 연인이 없습니다.");
+    }
+    const result = await Connect.update(
+      {
+        status: req.body.status,
+        startDate: req.body.startDate,
+        postitStatus: req.body.postitStatus,
+        sliderStatus: req.body.sliderStatus,
+        feelStatus: req.body.feelStatus,
+        memoStatus: req.body.memoStatus,
+        DdayStatus: req.body.DdayStatus,
+      },
+      {
+        where: { id: req.params.connectId },
+      }
+    );
+    res.status(200).json(result);
+  } catch (err) {
+    res.status(500).send("연인관계를 조회할수없습니다.");
   }
 });
 
