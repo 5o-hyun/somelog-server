@@ -48,6 +48,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     { freezeTableName: true } // 테이블이름 s안붙이기
   );
-
+  Connect.associate = (db) => {
+    db.Connect.hasMany(db.ConnectImage, {
+      foreignKey: "connectId",
+    }); // 한개의 커플은 여러이미지를 가질수있다. 1:N
+  };
   return Connect;
 };
