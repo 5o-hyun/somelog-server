@@ -1,6 +1,6 @@
 const express = require("express");
 const { Op } = require("sequelize");
-const { Connect, User } = require("../models");
+const { Connect, User, ConnectImage } = require("../models");
 const router = express.Router();
 
 router.get("/:userId", async (req, res) => {
@@ -50,6 +50,49 @@ router.get("/:userId", async (req, res) => {
     return res.status(200).json(connect);
   } catch (err) {
     res.status(500).send("연인관계를 조회할수없습니다.");
+  }
+});
+
+router.get(`/image/:connectId`, async (req, res) => {
+  try {
+    console.log(req.params.connectId);
+    const connect = await ConnectImage.findAll({
+      where: { connectId: req.params.connectId },
+    });
+    if (!connect) {
+      return res.status(403).send("연결이 된 연인이 없습니다.");
+    }
+    return res.status(200).json(connect);
+  } catch (err) {
+    res.status(500).send("연인의 배경이미지를 조회할수없습니다.");
+  }
+});
+
+router.post(`/image/:connectId`, async (req, res) => {
+  try {
+    const connect = await Connect.findOne({
+      where: { id: req.params.connectId },
+    });
+    if (!connect) {
+      return res.status(403).send("연결이 된 연인이 없습니다.");
+    }
+    // 연인의 이미지 다 지우기
+    await ConnectImage.destroy({
+      where: {
+        connectId: req.params.connectId,
+      },
+    });
+    // 연인의 이미지 등록하기
+    const images = req.body.images;
+    const result = await images.map((image) => {
+      ConnectImage.create({
+        connectId: req.params.connectId,
+        imagePath: image.url,
+      });
+    });
+    return res.status(200).json(result);
+  } catch (err) {
+    res.status(500).send("연인의 배경이미지를 조회할수없습니다.");
   }
 });
 
