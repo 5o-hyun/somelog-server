@@ -34,6 +34,7 @@ router.get("/:userId", async (req, res) => {
           { UserId: partner.dataValues.id },
         ],
       },
+      order: [["updatedAt", "DESC"]], // 새로 수정한 글순서
     });
     res.status(200).json(memos);
   } catch (err) {
