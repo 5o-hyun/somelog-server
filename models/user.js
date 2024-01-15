@@ -29,6 +29,14 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    moodEmoji: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    moodColor: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
   });
   User.associate = (db) => {
     // 코드를 받은사람

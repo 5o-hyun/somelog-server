@@ -121,6 +121,8 @@ router.get("/", async (req, res, next) => {
         birthday: fullUser.birthday,
         code: fullUser.code,
         photo: fullUser.photo,
+        moodEmoji: fullUser.moodEmoji,
+        moodColor: fullUser.moodColor,
 
         partner: partner
           ? {
@@ -129,6 +131,8 @@ router.get("/", async (req, res, next) => {
               sex: partner.dataValues.sex,
               birthday: partner.dataValues.birthday,
               photo: partner.dataValues.photo,
+              moodEmoji: partner.dataValues.moodEmoji,
+              moodColor: partner.dataValues.moodColor,
             }
           : undefined,
       };
@@ -209,6 +213,8 @@ router.put("/:userId", async (req, res, next) => {
         nickname: req.body.nickname,
         birthday: req.body.birthday,
         sex: req.body.sex,
+        moodEmoji: req.body.moodEmoji,
+        moodColor: req.body.moodColor,
       },
       {
         where: { id: req.params.userId },
