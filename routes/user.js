@@ -137,12 +137,12 @@ router.get("/", async (req, res, next) => {
           : undefined,
       };
 
-      res.status(200).json(result);
+      return res.status(200).json(result);
     }
-    res.status(401).json();
+    return res.status(401).json();
   } catch (err) {
     console.error(err);
-    next(error);
+    next(err);
   }
 });
 

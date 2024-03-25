@@ -18,12 +18,12 @@ const mongoose = require("mongoose");
 require("dotenv").config(); // dotenv 설정적용
 passportConfig(); // passport 설정적용
 
-mongoose
-  .connect(process.env.DB, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  })
-  .then(() => console.log("몽고db연결"));
+// mongoose
+//   .connect(process.env.DB, {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true,
+//   })
+//   .then(() => console.log("몽고db연결"));
 
 db.sequelize
   .sync()
