@@ -53,6 +53,7 @@ module.exports = (sequelize, DataTypes) => {
     });
     db.User.hasMany(db.Schedule); // user는 schedule을 여러개 가질수있다. 1:N
     db.User.hasMany(db.Memo); // user는 memo를 여러개 가질수있다. 1:N
+    db.User.hasMany(db.Diary); // user는 diary를 여러개 가질수있다. 1:N
   };
 
   return User;
