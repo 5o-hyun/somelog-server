@@ -7,6 +7,7 @@ const memosRouter = require("./routes/memos");
 const userRouter = require("./routes/user");
 const connectRouter = require("./routes/connect");
 const diaryRouter = require("./routes/diary");
+const diariesRouter = require("./routes/diaries");
 
 const db = require("./models");
 const passportConfig = require("./passport");
@@ -65,6 +66,7 @@ app.use("/memos", memosRouter);
 app.use("/user", userRouter);
 app.use("/connect", connectRouter);
 app.use("/diary", diaryRouter);
+app.use("/diaries", diariesRouter);
 
 app.listen(3065, () => {
   console.log("서버 실행중!!");
