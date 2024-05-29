@@ -41,7 +41,7 @@ router.get("/:userId", async (req, res) => {
           order: [["updatedAt", "DESC"]],
         },
       ],
-      order: [["date", "ASC"]], // 오래된 날짜일수록 아래로
+      order: [["date", "DESC"]], // 오래된 날짜일수록 아래로
     });
     res.status(200).json(diaries);
   } catch (err) {

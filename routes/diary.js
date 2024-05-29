@@ -2,6 +2,24 @@ const express = require("express");
 const { Diary, DiaryImage } = require("../models");
 const router = express.Router();
 
+// 다이어리 조회
+router.get("/:diaryId", async (req, res) => {
+  try {
+    const diary = await Diary.findOne({
+      where: { id: req.params.diaryId },
+      include: [
+        {
+          model: DiaryImage,
+          attributes: ["id", "imagePath"],
+        },
+      ],
+    });
+    res.status(200).json(diary);
+  } catch (err) {
+    res.status(500).send("다이어리를 조회할수없습니다.");
+  }
+});
+
 // 다이어리 생성
 router.post("/", async (req, res) => {
   try {
