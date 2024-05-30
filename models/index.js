@@ -20,6 +20,7 @@ db.Connect = require("./connect")(sequelize, Sequelize);
 db.ConnectImage = require("./connect_image")(sequelize, Sequelize);
 db.Diary = require("./diary")(sequelize, Sequelize);
 db.DiaryImage = require("./diary_image")(sequelize, Sequelize);
+db.DiaryComment = require("./diary_comment")(sequelize, Sequelize);
 
 // db에 associate한것들 반복문돌리며 import
 Object.keys(db).forEach((modelName) => {

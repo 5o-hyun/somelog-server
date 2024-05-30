@@ -23,6 +23,7 @@ module.exports = (sequelize, DataTypes) => {
   );
   Diary.associate = (db) => {
     db.Diary.hasMany(db.DiaryImage); // 한개의 다이어리는 여러이미지를 가질수있다. 1:N
+    db.Diary.hasMany(db.DiaryComment); // 한개의 다이어리는 여러댓글을 가질수있다. 1:N
     db.Diary.belongsTo(db.User); // 한개의 다이어리는 어떤 user에게 속해있다. 1:N
   };
   return Diary;
