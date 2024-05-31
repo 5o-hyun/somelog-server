@@ -1,9 +1,9 @@
 const express = require("express");
 const { Op } = require("sequelize");
-const { User, Diary, DiaryImage } = require("../models");
+const { User, Diary, DiaryImage, DiaryComment } = require("../models");
 const router = express.Router();
 
-// 유저+유저파트너의 전체 메모목록 조회 /memos/:userId
+// 유저+유저파트너의 전체 다이어리목록 조회
 router.get("/:userId", async (req, res) => {
   try {
     const fullUser = await User.findOne({
@@ -40,11 +40,34 @@ router.get("/:userId", async (req, res) => {
           attributes: ["imagePath"],
           order: [["updatedAt", "DESC"]],
         },
+        {
+          model: DiaryComment,
+          attributes: ["UserId"],
+          include: [{ model: User, attributes: ["photo"] }],
+        },
       ],
       order: [["date", "DESC"]], // 오래된 날짜일수록 아래로
     });
-    res.status(200).json(diaries);
+
+    // DiaryComment의 UserId 중복되면 제거
+    const distinctCommentUsers = diaries.map((entry) => {
+      const { dataValues } = entry;
+      const { DiaryComments } = dataValues;
+
+      const uniqueComments = DiaryComments.filter(
+        (comment, index, self) =>
+          index === self.findIndex((c) => c.UserId === comment.UserId)
+      );
+
+      return {
+        ...dataValues,
+        DiaryComments: uniqueComments,
+      };
+    });
+
+    res.status(200).json(distinctCommentUsers);
   } catch (err) {
+    console.log(err);
     res.status(500).send("메모리스트를 조회할수없습니다.");
   }
 });

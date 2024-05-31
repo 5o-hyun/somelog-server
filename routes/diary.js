@@ -1,5 +1,5 @@
 const express = require("express");
-const { Diary, DiaryImage, DiaryComment } = require("../models");
+const { Diary, DiaryImage, DiaryComment, User } = require("../models");
 const router = express.Router();
 
 // 다이어리 조회
@@ -11,6 +11,16 @@ router.get("/:diaryId", async (req, res) => {
         {
           model: DiaryImage,
           attributes: ["id", "imagePath"],
+        },
+        {
+          model: DiaryComment,
+          attributes: { exclude: ["createdAt", "DiaryId"] },
+          include: [
+            {
+              model: User,
+              attributes: ["photo"],
+            },
+          ],
         },
       ],
     });
