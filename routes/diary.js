@@ -23,7 +23,9 @@ router.get("/:diaryId", async (req, res) => {
           ],
         },
       ],
+      order: [[DiaryComment, "updatedAt", "DESC"]],
     });
+
     res.status(200).json(diary);
   } catch (err) {
     res.status(500).send("다이어리를 조회할수없습니다.");
@@ -82,6 +84,34 @@ router.post("/:diaryId/comment", async (req, res) => {
     res.status(201).send("댓글이 정상적으로 등록되었습니다.");
   } catch (err) {
     res.status(500).send("댓글을 등록할수없습니다.");
+  }
+});
+
+// 댓글 수정
+router.put("/:diaryId/comment/:commentId", async (req, res) => {
+  try {
+    const comment = await DiaryComment.findOne({
+      where: { id: req.params.commentId, DiaryId: req.params.diaryId },
+    });
+    if (!comment) {
+      return res.status(403).send("존재하지 않는 댓글입니다.");
+    }
+    if (comment.UserId !== req.body.userId) {
+      return res.status(403).send("수정권한이 없는 사용자입니다.");
+    }
+
+    await DiaryComment.update(
+      {
+        id: req.params.commentId,
+        comment: req.body.comment,
+      },
+      {
+        where: { id: req.params.commentId },
+      }
+    );
+    res.status(200).send("메모를 수정하였습니다.");
+  } catch (err) {
+    res.status(500).send("메모를 수정할수없습니다.");
   }
 });
 
