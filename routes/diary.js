@@ -115,4 +115,25 @@ router.put("/:diaryId/comment/:commentId", async (req, res) => {
   }
 });
 
+// 댓글 삭제
+router.delete("/:diaryId/comment/:commentId", async (req, res) => {
+  try {
+    const comment = await DiaryComment.findOne({
+      where: { id: req.params.commentId, DiaryId: req.params.diaryId },
+    });
+    if (!comment) {
+      return res.status(403).send("존재하지 않는 댓글입니다.");
+    }
+
+    await DiaryComment.destroy({
+      where: {
+        id: req.params.commentId,
+      },
+    });
+    res.status(200).send("댓글이 삭제되었습니다.");
+  } catch (err) {
+    res.status(500).send("댓글을 삭제할수없습니다.");
+  }
+});
+
 module.exports = router;
