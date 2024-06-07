@@ -6,6 +6,10 @@ const router = express.Router();
 // 유저+유저파트너의 전체 다이어리목록 조회
 router.get("/:userId", async (req, res) => {
   try {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const offset = (page - 1) * limit;
+
     const fullUser = await User.findOne({
       where: { id: req.params.userId },
       include: [
@@ -47,6 +51,8 @@ router.get("/:userId", async (req, res) => {
         },
       ],
       order: [["date", "DESC"]], // 오래된 날짜일수록 아래로
+      limit,
+      offset,
     });
 
     // DiaryComment의 UserId 중복되면 제거
