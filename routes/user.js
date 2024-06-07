@@ -168,7 +168,7 @@ router.put("/:userId/addInfo", async (req, res) => {
     res.status(200).send("ok");
   } catch (err) {
     res.status(500).send("서버에 추가정보를 저장할수없습니다.");
-    console.log(err);
+    console.error(err);
   }
 });
 

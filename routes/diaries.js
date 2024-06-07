@@ -73,7 +73,7 @@ router.get("/:userId", async (req, res) => {
 
     res.status(200).json(distinctCommentUsers);
   } catch (err) {
-    console.log(err);
+    console.error(err);
     res.status(500).send("메모리스트를 조회할수없습니다.");
   }
 });

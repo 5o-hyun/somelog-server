@@ -55,7 +55,6 @@ router.get("/:userId", async (req, res) => {
 
 router.get(`/image/:connectId`, async (req, res) => {
   try {
-    console.log(req.params.connectId);
     const connect = await ConnectImage.findAll({
       where: { connectId: req.params.connectId },
     });

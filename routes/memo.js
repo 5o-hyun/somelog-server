@@ -13,7 +13,6 @@ router.get("/:memoId", async (req, res) => {
 
 router.post("/", async (req, res) => {
   try {
-    console.log(req.body);
     await Memo.create({
       title: req.body.title,
       detail: req.body.detail,
