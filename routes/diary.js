@@ -136,4 +136,26 @@ router.delete("/:diaryId/comment/:commentId", async (req, res) => {
   }
 });
 
+// 다이어리 삭제
+router.delete("/:diaryId", async (req, res) => {
+  try {
+    const diary = await Diary.findOne({
+      where: { id: req.params.diaryId },
+    });
+    if (!diary) {
+      return res.status(403).send("존재하지않는 게시물입니다.");
+    }
+
+    await Diary.destroy({
+      where: {
+        id: req.params.diaryId,
+      },
+    });
+    res.status(200).send("다이어리가 삭제되었습니다.");
+  } catch (err) {
+    res.status(500).send("다이어리를 삭제할수없습니다.");
+    console.error(err);
+  }
+});
+
 module.exports = router;
