@@ -74,7 +74,74 @@ router.get("/:userId", async (req, res) => {
     res.status(200).json(distinctCommentUsers);
   } catch (err) {
     console.error(err);
-    res.status(500).send("메모리스트를 조회할수없습니다.");
+    res.status(500).send("다이어리 목록을 조회할수없습니다.");
+  }
+});
+
+// 유저+유저파트너의 전체 폴라로이드 조회
+router.get("/:userId/polaroid", async (req, res) => {
+  try {
+    const fullUser = await User.findOne({
+      where: { id: req.params.userId },
+      include: [
+        {
+          model: User,
+          as: "Connecter",
+          attributes: { exclude: ["code", "email", "pw", "createdAt"] },
+        },
+        {
+          model: User,
+          as: "Connected",
+          attributes: { exclude: ["code", "email", "pw", "createdAt"] },
+        },
+      ],
+    });
+
+    const partner =
+      fullUser.Connected.length > 0
+        ? fullUser.Connected[0]
+        : fullUser.Connecter[0];
+
+    const polaroid = await Diary.findAll({
+      attributes: ["id", "date", "title"],
+      where: {
+        [Op.or]: [
+          { UserId: req.params.userId },
+          { UserId: partner.dataValues.id },
+        ],
+      },
+      include: [
+        {
+          model: DiaryImage,
+          attributes: ["imagePath"],
+        },
+      ],
+    });
+
+    // 랜덤한 imagePath를 선택하는 함수
+    function getRandomImagePath(images) {
+      if (images.length === 0) return null;
+      const randomIndex = Math.floor(Math.random() * images.length);
+      return images[randomIndex].imagePath;
+    }
+
+    // 각 다이어리 항목에 대해 랜덤한 imagePath 선택
+    const result = polaroid.map((entry) => {
+      const randomImagePath = getRandomImagePath(entry.DiaryImages);
+      return {
+        id: entry.id,
+        date: entry.date,
+        title: entry.title,
+        imagePath: randomImagePath,
+      };
+    });
+
+    console.log(result);
+
+    res.status(200).json(result);
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("폴라로이드를 조회할수없습니다.");
   }
 });
 
