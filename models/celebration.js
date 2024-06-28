@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
   Celebration.associate = (db) => {
-    db.Celebration.belongsTo(db.Sticker); // 기념일은 한개의 스티커를 갖는다 1:N
+    db.Celebration.belongsTo(db.Sticker); // 기념일은 한개의 스티커를 갖는다 N:1
   };
   return Celebration;
 };
