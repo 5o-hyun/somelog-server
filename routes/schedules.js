@@ -41,4 +41,42 @@ router.get("/:userId", async (req, res) => {
   }
 });
 
+// 기념일리스트만 조회
+router.get("/:userId/celebration", async (req, res) => {
+  try {
+    const fullUser = await User.findOne({
+      where: { id: req.params.userId },
+      include: [
+        {
+          model: User,
+          as: "Connecter",
+          attributes: { exclude: ["code", "email", "pw", "createdAt"] },
+        },
+        {
+          model: User,
+          as: "Connected",
+          attributes: { exclude: ["code", "email", "pw", "createdAt"] },
+        },
+      ],
+    });
+
+    const partner =
+      fullUser.Connected.length > 0
+        ? fullUser.Connected[0]
+        : fullUser.Connecter[0];
+
+    const schedules = await Schedule.findAll({
+      where: {
+        [Op.or]: [
+          { UserId: req.params.userId, sticker: { [Op.ne]: null } },
+          { UserId: partner.dataValues.id, sticker: { [Op.ne]: null } },
+        ],
+      },
+    });
+    res.status(200).json(schedules);
+  } catch (err) {
+    res.status(500).send("기념일 리스트를 조회할수없습니다.");
+  }
+});
+
 module.exports = router;
