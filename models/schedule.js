@@ -21,6 +21,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
+    sticker: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
   });
   Schedule.associate = (db) => {
     db.Schedule.belongsTo(db.User); // schedule은 어떤 user에게 속해있다. 1:N
