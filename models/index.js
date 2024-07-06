@@ -22,7 +22,6 @@ db.Diary = require("./diary")(sequelize, Sequelize);
 db.DiaryImage = require("./diary_image")(sequelize, Sequelize);
 db.DiaryComment = require("./diary_comment")(sequelize, Sequelize);
 db.Sticker = require("./sticker")(sequelize, Sequelize);
-db.Celebration = require("./celebration")(sequelize, Sequelize);
 
 // db에 associate한것들 반복문돌리며 import
 Object.keys(db).forEach((modelName) => {
