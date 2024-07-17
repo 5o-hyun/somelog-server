@@ -10,7 +10,6 @@ module.exports = (sequelize, DataTypes) => {
     imagePath: {
       type: DataTypes.STRING,
       allowNull: true,
-      defaultValue: dayjs().format("YYYY-MM-DD"),
     },
   });
   ConnectImage.associate = (db) => {
