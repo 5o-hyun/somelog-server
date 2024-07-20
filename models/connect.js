@@ -6,7 +6,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       id: {
         type: DataTypes.INTEGER,
-        primaryKey: true,
+        primaryKey: true, // 기본키
         autoIncrement: true, // 자동생성
         allowNull: true,
       },
