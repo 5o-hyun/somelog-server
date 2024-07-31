@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
       postitStatus: {
         type: DataTypes.STRING,
         allowNull: true,
-        defaultValue: "Y", // 기본값
+        defaultValue: "Y", // 기본값.
       },
       sliderStatus: {
         type: DataTypes.STRING,
