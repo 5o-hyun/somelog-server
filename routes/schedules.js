@@ -71,6 +71,7 @@ router.get("/:userId/celebration", async (req, res) => {
           { UserId: req.params.userId, sticker: { [Op.ne]: null } },
           { UserId: partner.dataValues.id, sticker: { [Op.ne]: null } },
         ],
+        order: [["createdAt", "DESC"]],
       },
     });
     res.status(200).json(schedules);
